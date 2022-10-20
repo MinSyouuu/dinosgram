@@ -18,7 +18,7 @@ class Post extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: 'https://picsum.photos/id/$index/200/200',
       placeholder: (BuildContext context, String url) {
-        return MyProgressIndicator(progressSize: 50);
+        return MyProgressIndicator(containerSize: size?.width,);
       },
       imageBuilder: (BuildContext context, ImageProvider imageProvider) {
         return AspectRatio(
