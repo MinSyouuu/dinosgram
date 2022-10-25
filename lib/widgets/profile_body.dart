@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dinosgram/constants/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/common_size.dart';
@@ -8,8 +9,7 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
-  // const ProfileBody({Key? key}) : super(key: key);
-  bool selectedLeft = true;
+  SelectedTab _selectedLeft = SelectedTab.left;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,20 @@ class _ProfileBodyState extends State<ProfileBody> {
               _selectedIndicator(),
             ]),
           ),
+          SliverToBoxAdapter(
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              childAspectRatio: 1,
+              physics: NeverScrollableScrollPhysics(),
+              children: List.generate(
+                30,
+                (index) => CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: 'https://picsum.photos/id/$index/100/100'),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -33,7 +47,9 @@ class _ProfileBodyState extends State<ProfileBody> {
   Widget _selectedIndicator() {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
-      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: _selectedLeft == SelectedTab.left
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
       curve: Curves.fastOutSlowIn,
       child: Container(
         height: 3,
@@ -50,12 +66,14 @@ class _ProfileBodyState extends State<ProfileBody> {
           child: IconButton(
             onPressed: () {
               setState(() {
-                selectedLeft = true;
+                _selectedLeft = SelectedTab.left;
               });
             },
             icon: ImageIcon(
               AssetImage('assets/images/grid.png'),
-              color: selectedLeft ? Colors.black : Colors.black26,
+              color: _selectedLeft == SelectedTab.left
+                  ? Colors.black
+                  : Colors.black26,
             ),
           ),
         ),
@@ -63,12 +81,14 @@ class _ProfileBodyState extends State<ProfileBody> {
           child: IconButton(
             onPressed: () {
               setState(() {
-                selectedLeft = false;
+                _selectedLeft = SelectedTab.right;
               });
             },
             icon: ImageIcon(
               AssetImage('assets/images/saved.png'),
-              color: selectedLeft ? Colors.black26 : Colors.black,
+              color: _selectedLeft == SelectedTab.left
+                  ? Colors.black26
+                  : Colors.black,
             ),
           ),
         ),
@@ -120,3 +140,5 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 }
+
+enum SelectedTab { left, right }
