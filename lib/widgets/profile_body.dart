@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dinosgram/constants/screen_size.dart';
+import 'package:dinosgram/widgets/rounded_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/common_size.dart';
 
@@ -20,6 +21,39 @@ class _ProfileBodyState extends State<ProfileBody> {
         slivers: [
           SliverList(
             delegate: SliverChildListDelegate([
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(common_gap),
+                    child: RoundedAvatar(
+                      size: 80,
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: common_gap),
+                      child: Table(
+                        children: [
+                          TableRow(
+                            children: [
+                              _valueText('123123'),
+                              _valueText('321123'),
+                              _valueText('1223'),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              _labelText('Post'),
+                              _labelText('Followers'),
+                              _labelText('Following'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               _username(),
               _userBio(),
               _editProfileBtn(),
@@ -32,6 +66,18 @@ class _ProfileBodyState extends State<ProfileBody> {
       ),
     );
   }
+
+  Text _valueText(String value) => Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      );
+
+  Text _labelText(String label) => Text(
+        label,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 11),
+      );
 
   SliverToBoxAdapter _imagesPager() {
     return SliverToBoxAdapter(
@@ -55,17 +101,17 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   GridView _images() {
     return GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          childAspectRatio: 1,
-          physics: NeverScrollableScrollPhysics(),
-          children: List.generate(
-            30,
-            (index) => CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: 'https://picsum.photos/id/$index/100/100'),
-          ),
-        );
+      shrinkWrap: true,
+      crossAxisCount: 3,
+      childAspectRatio: 1,
+      physics: NeverScrollableScrollPhysics(),
+      children: List.generate(
+        30,
+        (index) => CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: 'https://picsum.photos/id/$index/100/100'),
+      ),
+    );
   }
 
   Widget _selectedIndicator() {
@@ -89,11 +135,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              setState(() {
-                _selectedLeft = SelectedTab.left;
-                _leftImagesPageMargin = 0;
-                _rightImagesPageMargin = size.width;
-              });
+              _tabSelected(SelectedTab.left);
             },
             icon: ImageIcon(
               AssetImage('assets/images/grid.png'),
@@ -106,11 +148,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              setState(() {
-                _selectedLeft = SelectedTab.right;
-                _leftImagesPageMargin = -size.width;
-                _rightImagesPageMargin = 0;
-              });
+              _tabSelected(SelectedTab.right);
             },
             icon: ImageIcon(
               AssetImage('assets/images/saved.png'),
@@ -122,6 +160,23 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
       ],
     );
+  }
+
+  _tabSelected(SelectedTab selectedTab) {
+    setState(() {
+      switch (selectedTab) {
+        case SelectedTab.left:
+          _selectedLeft = SelectedTab.left;
+          _leftImagesPageMargin = 0;
+          _rightImagesPageMargin = size.width;
+          break;
+        case SelectedTab.right:
+          _selectedLeft = SelectedTab.right;
+          _leftImagesPageMargin = -size.width;
+          _rightImagesPageMargin = 0;
+          break;
+      }
+    });
   }
 
   Padding _editProfileBtn() {
