@@ -1,3 +1,4 @@
+import 'package:dinosgram/constants/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/common_size.dart';
 
@@ -20,40 +21,58 @@ class _ProfileBodyState extends State<ProfileBody> {
               _username(),
               _userBio(),
               _editProfileBtn(),
-              Row(
-                children: [
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = true;
-                        });
-                      },
-                      icon: ImageIcon(
-                        AssetImage('assets/images/grid.png'),
-                        color: selectedLeft ? Colors.black : Colors.black26,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = false;
-                        });
-                      },
-                      icon: ImageIcon(
-                        AssetImage('assets/images/saved.png'),
-                        color: selectedLeft ? Colors.black26 : Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              _tabButtons(),
+              _selectedIndicator(),
             ]),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _selectedIndicator() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+      curve: Curves.fastOutSlowIn,
+      child: Container(
+        height: 3,
+        width: size.width / 2,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Row _tabButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                selectedLeft = true;
+              });
+            },
+            icon: ImageIcon(
+              AssetImage('assets/images/grid.png'),
+              color: selectedLeft ? Colors.black : Colors.black26,
+            ),
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                selectedLeft = false;
+              });
+            },
+            icon: ImageIcon(
+              AssetImage('assets/images/saved.png'),
+              color: selectedLeft ? Colors.black26 : Colors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:dinosgram/constants/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dinosgram/constants/common_size.dart';
@@ -7,14 +8,11 @@ import 'package:dinosgram/widgets/rounded_avatar.dart';
 
 class Post extends StatelessWidget {
   final int index;
-  Size? size;
 
   Post(this.index, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    size ??= MediaQuery.of(context).size;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -100,7 +98,7 @@ class Post extends StatelessWidget {
       imageUrl: 'https://picsum.photos/id/$index/200/200',
       placeholder: (BuildContext context, String url) {
         return MyProgressIndicator(
-          containerSize: size?.width,
+          containerSize: size.width,
         );
       },
       imageBuilder: (BuildContext context, ImageProvider imageProvider) {

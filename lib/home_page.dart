@@ -1,3 +1,4 @@
+import 'package:dinosgram/constants/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:dinosgram/screens/feed_screen.dart';
 import 'package:dinosgram/screens/profile_screen.dart';
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
