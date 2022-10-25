@@ -1,10 +1,9 @@
-import 'package:dinosgram/feed_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:dinosgram/screens/feed_screen.dart';
+import 'package:dinosgram/screens/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedIndex = 0;
 
-  static List<Widget> _screens = <Widget>[
+  static final List<Widget> _screens = <Widget>[
     FeedScreen(),
     Container(
       color: Colors.amberAccent,
@@ -32,9 +31,7 @@ class _HomePageState extends State<HomePage> {
     Container(
       color: Colors.greenAccent,
     ),
-    Container(
-      color: Colors.deepPurpleAccent,
-    ),
+    ProfileScreen(),
   ];
 
   @override
