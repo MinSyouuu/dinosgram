@@ -10,6 +10,8 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   SelectedTab _selectedLeft = SelectedTab.left;
+  double _leftImagesPageMargin = 0;
+  double _rightImagesPageMargin = size.width;
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +27,45 @@ class _ProfileBodyState extends State<ProfileBody> {
               _selectedIndicator(),
             ]),
           ),
-          SliverToBoxAdapter(
-            child: GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 3,
-              childAspectRatio: 1,
-              physics: NeverScrollableScrollPhysics(),
-              children: List.generate(
-                30,
-                (index) => CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: 'https://picsum.photos/id/$index/100/100'),
-              ),
-            ),
-          ),
+          _imagesPager(),
         ],
       ),
     );
+  }
+
+  SliverToBoxAdapter _imagesPager() {
+    return SliverToBoxAdapter(
+        child: Stack(
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
+          curve: Curves.fastOutSlowIn,
+          child: _images(),
+        ),
+        AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
+          curve: Curves.fastOutSlowIn,
+          child: _images(),
+        ),
+      ],
+    ));
+  }
+
+  GridView _images() {
+    return GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          childAspectRatio: 1,
+          physics: NeverScrollableScrollPhysics(),
+          children: List.generate(
+            30,
+            (index) => CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: 'https://picsum.photos/id/$index/100/100'),
+          ),
+        );
   }
 
   Widget _selectedIndicator() {
@@ -67,6 +91,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedLeft = SelectedTab.left;
+                _leftImagesPageMargin = 0;
+                _rightImagesPageMargin = size.width;
               });
             },
             icon: ImageIcon(
@@ -82,6 +108,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedLeft = SelectedTab.right;
+                _leftImagesPageMargin = -size.width;
+                _rightImagesPageMargin = 0;
               });
             },
             icon: ImageIcon(
