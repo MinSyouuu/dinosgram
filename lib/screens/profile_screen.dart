@@ -1,5 +1,5 @@
+import 'package:dinosgram/widgets/profile_body.dart';
 import 'package:flutter/material.dart';
-import 'package:dinosgram/constants/common_size.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -13,61 +13,9 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _appbar(),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                        [_username(), _userBio(), _editProfileBtn()]),
-                  ),
-                ],
-              ),
-            ),
+            ProfileBody(),
           ],
         ),
-      ),
-    );
-  }
-
-  Padding _editProfileBtn() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: SizedBox(
-        height: 24,
-        child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.black45),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-            foregroundColor: Colors.black,
-          ),
-          onPressed: () {},
-          child: Text(
-            'Edit Profile',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _username() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: Text(
-        'username',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Widget _userBio() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap),
-      child: Text(
-        'this is what I believe!!',
-        style: TextStyle(fontWeight: FontWeight.w400),
       ),
     );
   }
