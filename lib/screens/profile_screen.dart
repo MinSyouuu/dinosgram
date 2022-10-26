@@ -1,6 +1,9 @@
+import 'package:dinosgram/widgets/profile_side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/screen_size.dart';
 import 'package:dinosgram/widgets/profile_body.dart';
+
+const duration = Duration(milliseconds: 1000);
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -8,8 +11,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final duration = Duration(milliseconds: 300);
-  final menuWidth = size.width / 2;
+  final menuWidth = size.width / 3 * 2;
 
   MenuStatus _menuStatus = MenuStatus.closed;
   double bodyXPos = 0;
@@ -48,14 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             duration: duration,
             curve: Curves.fastOutSlowIn,
             transform: Matrix4.translationValues(menuXPos, 0, 0),
-            child: Positioned(
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: menuWidth,
-                color: Colors.deepPurpleAccent,
-              ),
-            ),
+            child: ProfileSideMenu(menuWidth),
           ),
         ],
       ),

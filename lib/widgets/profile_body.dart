@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dinosgram/constants/screen_size.dart';
+import 'package:dinosgram/screens/profile_screen.dart';
 import 'package:dinosgram/widgets/rounded_avatar.dart';
-import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/common_size.dart';
+import 'package:flutter/material.dart';
 
 class ProfileBody extends StatefulWidget {
   final Function() onMenuChanged;
@@ -13,10 +14,25 @@ class ProfileBody extends StatefulWidget {
   State<ProfileBody> createState() => _ProfileBodyState();
 }
 
-class _ProfileBodyState extends State<ProfileBody> {
+class _ProfileBodyState extends State<ProfileBody>
+    with SingleTickerProviderStateMixin {
   SelectedTab _selectedLeft = SelectedTab.left;
   double _leftImagesPageMargin = 0;
   double _rightImagesPageMargin = size.width;
+  late AnimationController _iconAnimationController;
+
+  @override
+  void initState() {
+    _iconAnimationController =
+        AnimationController(vsync: this, duration: duration);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _iconAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +109,14 @@ class _ProfileBodyState extends State<ProfileBody> {
         IconButton(
           onPressed: () {
             widget.onMenuChanged();
+            _iconAnimationController.status == AnimationStatus.completed
+                ? _iconAnimationController.reverse()
+                : _iconAnimationController.forward();
           },
-          icon: Icon(Icons.menu),
+          icon: AnimatedIcon(
+            progress: _iconAnimationController,
+            icon: AnimatedIcons.menu_close,
+          ),
         )
       ],
     );
@@ -117,13 +139,13 @@ class _ProfileBodyState extends State<ProfileBody> {
         child: Stack(
       children: [
         AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+          duration: duration,
           transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
           curve: Curves.fastOutSlowIn,
           child: _images(),
         ),
         AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+          duration: duration,
           transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
           curve: Curves.fastOutSlowIn,
           child: _images(),
@@ -149,7 +171,7 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   Widget _selectedIndicator() {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: duration,
       alignment: _selectedLeft == SelectedTab.left
           ? Alignment.centerLeft
           : Alignment.centerRight,
