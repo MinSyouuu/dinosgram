@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:dinosgram/constants/common_size.dart';
 
 class ProfileBody extends StatefulWidget {
+  final Function() onMenuChanged;
+
+  const ProfileBody({super.key, required this.onMenuChanged});
+
   @override
   State<ProfileBody> createState() => _ProfileBodyState();
 }
@@ -16,54 +20,83 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(common_gap),
-                    child: RoundedAvatar(
-                      size: 80,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: common_gap),
-                      child: Table(
-                        children: [
-                          TableRow(
-                            children: [
-                              _valueText('123123'),
-                              _valueText('321123'),
-                              _valueText('1223'),
-                            ],
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _appbar(),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(common_gap),
+                          child: RoundedAvatar(
+                            size: 80,
                           ),
-                          TableRow(
-                            children: [
-                              _labelText('Post'),
-                              _labelText('Followers'),
-                              _labelText('Following'),
-                            ],
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: common_gap),
+                            child: Table(
+                              children: [
+                                TableRow(
+                                  children: [
+                                    _valueText('123123'),
+                                    _valueText('321123'),
+                                    _valueText('1223'),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: [
+                                    _labelText('Post'),
+                                    _labelText('Followers'),
+                                    _labelText('Following'),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              _username(),
-              _userBio(),
-              _editProfileBtn(),
-              _tabButtons(),
-              _selectedIndicator(),
-            ]),
+                    _username(),
+                    _userBio(),
+                    _editProfileBtn(),
+                    _tabButtons(),
+                    _selectedIndicator(),
+                  ]),
+                ),
+                _imagesPager(),
+              ],
+            ),
           ),
-          _imagesPager(),
         ],
       ),
+    );
+  }
+
+  Row _appbar() {
+    return Row(
+      children: [
+        SizedBox(
+          width: 44,
+        ),
+        Expanded(
+            child: Text(
+          'The Syusyu World',
+          textAlign: TextAlign.center,
+        )),
+        IconButton(
+          onPressed: () {
+            widget.onMenuChanged();
+          },
+          icon: Icon(Icons.menu),
+        )
+      ],
     );
   }
 

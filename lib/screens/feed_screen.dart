@@ -29,12 +29,6 @@ class FeedScreen extends StatelessWidget {
                   AssetImage('assets/images/actionbar_camera.png'),
                   color: Colors.black87,
                 )),
-            IconButton(
-                onPressed: null,
-                icon: ImageIcon(
-                  AssetImage('assets/images/actionbar_camera.png'),
-                  color: Colors.black87,
-                )),
           ],
         ),
       ),
@@ -49,5 +43,3 @@ class FeedScreen extends StatelessWidget {
     return Post(index);
   }
 }
-
-
