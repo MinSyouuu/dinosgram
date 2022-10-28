@@ -24,7 +24,11 @@ class _AuthScreenState extends State<AuthScreen> {
               right: 0,
               bottom: 0,
               child: Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      top: BorderSide(color: Colors.grey),
+                    )),
                 child: TextButton(
                   onPressed: () {
                     setState(() {
@@ -38,7 +42,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: (selectedForm == 0) ? 'Already have an account? ' : "Don't have an account? ",
+                        text: (selectedForm == 0)
+                            ? 'Already have an account? '
+                            : "Don't have an account? ",
                         style: TextStyle(color: Colors.grey),
                       ),
                       TextSpan(
